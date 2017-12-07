@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -24,5 +25,12 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+    
+    public function sudentInformation($studentNumber) 
+    {
+        $user = User::all()->Where('student_number', '=' , $studentNumber);
+ 
+      return json_decode($user->exists()) ;
     }
 }

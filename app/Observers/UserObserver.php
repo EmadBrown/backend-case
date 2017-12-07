@@ -16,7 +16,7 @@ class UserObserver
     public function creating(User $user)
     {
         // add access token to users table
-         $user->access_token = bin2hex(openssl_random_pseudo_bytes(20));
+         $user->api_token = bin2hex(openssl_random_pseudo_bytes(20));
        
         // add student number to users table
         $users = User::all()->count();
