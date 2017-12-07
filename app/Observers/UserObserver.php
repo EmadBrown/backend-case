@@ -17,11 +17,19 @@ class UserObserver
     {
         // add access token to users table
          $user->api_token = bin2hex(openssl_random_pseudo_bytes(20));
-       
-        // add student number to users table
-        $users = User::all()->count();
-        $date = Carbon::now();
-        $user->student_number = $date->year. '' .$date->month. '' . $users + 1;
+
+        // If / Else statement Just in case it needs to refresh access token
+        // add student number to users 
+        if(empty($user->student_number ))
+        {
+                $users = User::all()->count();
+                $date = Carbon::now();
+                $user->student_number = $date->year. '' .$date->month. '' . $users + 1;
+        }
+        else
+        {
+               $user->update();
+        }
     }
 
     /**

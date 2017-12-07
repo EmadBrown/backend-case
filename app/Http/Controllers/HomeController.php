@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-
+ use Auth;
 class HomeController extends Controller
 {
     /**
@@ -12,6 +12,7 @@ class HomeController extends Controller
      *
      * @return void
      */
+    
     public function __construct()
     {
         $this->middleware('auth');
@@ -25,12 +26,5 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
-    }
-    
-    public function sudentInformation($studentNumber) 
-    {
-        $user = User::all()->Where('student_number', '=' , $studentNumber);
- 
-      return json_decode($user->exists()) ;
     }
 }

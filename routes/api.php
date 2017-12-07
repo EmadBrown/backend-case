@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->group( function () {
-   Route::post('/student/{student_number}' , 'HomeController@sudentInformation');
+   Route::resource('/news' , 'Api\NewsApiController');
 });
 
  
