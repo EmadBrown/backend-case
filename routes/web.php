@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -27,7 +28,8 @@ Route::get('news' , 'Web\NewsController@index');
 
 // Admin Routes
 Route::prefix('admin')->group(function(){
-Route::get('/', 'Admin|AdminController@index')->name('admin.dashboard');
+Route::get('/', 'Admin\AdminController@index')->name('admin.dashboard');
 Route::get('/login', 'Admin\AdminLoginController@showLoginForm')->name('admin.login');
-Route::post('/login', 'Admin\AdminLoginController@login')->name('admin.login.submit');
+Route::post('/login', 'Admin\AdminLoginController@login')->name  ('admin.login.submit');
+Route::get('/logout', 'Admin\AdminLoginController@logout')->name('admin.logout');
 });

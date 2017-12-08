@@ -35,7 +35,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+         $this->middleware('guest', ['except' => ['logout', 'userLogout']]);
     }
     
     // Change login by using student number instead  of  email 
@@ -49,6 +49,12 @@ class LoginController extends Controller
      public function username()
     {
         return 'student_number';
+    }
+    
+    public function userLogout()
+    {
+        Auth::guard('web')->logout();
+        return redirect('/');
     }
     
 }
