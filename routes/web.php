@@ -12,12 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('main');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// route Web NewsController for normal user
+Route::get('news' , 'Web\NewsController@index');
 
 // route Web NewsController for normal user
 Route::get('news' , 'Web\NewsController@index');
