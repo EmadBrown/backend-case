@@ -24,3 +24,10 @@ Route::get('news' , 'Web\NewsController@index');
 
 // route Web NewsController for normal user
 Route::get('news' , 'Web\NewsController@index');
+
+// Admin Routes
+Route::prefix('admin')->group(function(){
+Route::get('/', 'Admin|AdminController@index')->name('admin.dashboard');
+Route::get('/login', 'Admin\AdminLoginController@showLoginForm')->name('admin.login');
+Route::post('/login', 'Admin\AdminLoginController@login')->name('admin.login.submit');
+});
