@@ -19,5 +19,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
-Route::
+// route Web NewsController for normal user
+Route::get('news' , 'Web\NewsController@index');

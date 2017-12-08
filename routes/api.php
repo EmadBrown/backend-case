@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->group( function () {
-   Route::resource('/news' , 'Api\NewsApiController');
+   Route::get('/news/{studentNumber}' , 'Api\NewsApiController@index');
 });
 
  
