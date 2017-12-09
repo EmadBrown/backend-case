@@ -179,6 +179,7 @@ return [
         
         // Config Observer Service Povider
         App\Providers\ObserverServiceProvider::class,
+        
     ],
 
     /*
