@@ -16,16 +16,14 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+// Route  logout Normal user
 Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 
-Route::get('/home', 'HomeController@index')->name('home');
-
 // route Web NewsController for normal user
 Route::get('news' , 'Web\NewsController@index');
 
-// route Web NewsController for normal user
-Route::get('news' , 'Web\NewsController@index');
-
+ 
 // Admin Routes
 Route::prefix('admin')->group(function(){
     Route::get('/', 'Admin\AdminController@index')->name('admin.dashboard');
@@ -39,4 +37,11 @@ Route::prefix('admin')->group(function(){
         Route::post('/reset', 'Admin\AdminResetPasswordController@reset');
         Route::get('/rest/{token}', 'Admin\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
     });
+    
+});
+
+// CMS Admin routes
+Route::middleware('auth:Admin')->group( function () {
+   Route::resource('/news' , 'Cms\NewsAdminController' );
+   Route::resource('/grade' , 'Cms\GradeAdminController' );
 });
