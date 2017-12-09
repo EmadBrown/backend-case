@@ -14,7 +14,7 @@ class GradeAdminController extends Controller
      */
     public function index()
     {
-        //
+        return view('cms.grades.index');
     }
 
     /**

@@ -41,7 +41,8 @@ Route::prefix('admin')->group(function(){
 });
 
 // CMS Admin routes
-Route::middleware('auth:Admin')->group( function () {
+Route::middleware('auth:admin')->group( function () {
    Route::resource('/news' , 'Cms\NewsAdminController' );
    Route::resource('/grade' , 'Cms\GradeAdminController' );
 });
+
