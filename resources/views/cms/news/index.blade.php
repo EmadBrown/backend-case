@@ -1,6 +1,6 @@
 @extends('cms.layout')
 
-@section('title' , '| Grades')
+@section('title' , '| News')
 
 @section('cms-content')
 <div class="col-sm-10 col-md-10">

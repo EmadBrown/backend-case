@@ -12,7 +12,8 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Admin Dashboard') }}
+                        <!--{{ config('app.name', 'Admin Dashboard') }}-->
+                        <img src="{{ asset('images/logo-StuComm.png') }}" height="30" width="90">
                     </a>
                 </div>
 

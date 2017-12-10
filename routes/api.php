@@ -12,9 +12,11 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+  
+Route::get('/news' , 'Api\NewsApiController@index');
+   
 Route::middleware('auth:api')->group( function () {
-   Route::get('/news/{studentNumber}' , 'Api\NewsApiController@index');
+
 });
 
  

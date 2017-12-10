@@ -38,7 +38,7 @@
                         <table class="table">
                             <tr>
                                 <td  class="{{Request::segment(1) == 'news' ? 'alert-info  ' : '' }}">
-                                    <span class="fa fa-bars" aria-hidden="true"></span><a href="{{route('news.index')}}" class="text-info"> News List  <span class="badge">42</span></a>
+                                    <span class="fa fa-bars" aria-hidden="true"></span><a href="{{route('news.index')}}" class="text-info"> Articles List  <span class="badge">{{ $countArticle }}</span></a>
                                 </td>
                             </tr>
                              <tr>

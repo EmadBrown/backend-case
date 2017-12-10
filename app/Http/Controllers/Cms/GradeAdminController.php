@@ -5,8 +5,23 @@ namespace App\Http\Controllers\Cms;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Grade;
+use App\Http\Controllers\Cms\CmsController;
+use Illuminate\View\View;
+
 class GradeAdminController extends Controller
 {
+     protected $cmsController;
+
+    public function __construct(CmsController $cmsController)
+    {
+        // Get function's data of CmsController and pass it to all the view cms
+        $this->cmsController = $cmsController;
+        
+        $countArticle = $this->cmsController->countArticle();
+        
+        View()->share([ 'countArticle' => $countArticle ]);
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +29,9 @@ class GradeAdminController extends Controller
      */
     public function index()
     {
-        return view('cms.grades.index');
+        $grades = Grade::orderBy('created_at'  ,  'desc')->paginate(10);
+
+        return view('cms.grade.index')->withNews($grades);
     }
 
     /**

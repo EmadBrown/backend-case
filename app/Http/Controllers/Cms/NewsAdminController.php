@@ -8,9 +8,24 @@ use Mews\Purifier\Facades\Purifier;
 use Illuminate\Support\Facades\Session;
 use Image;
 use App\News;
+use App\Http\Controllers\Cms\CmsController;
+use Illuminate\View\View;
+
 class NewsAdminController extends Controller
 {
-    /**
+ 
+    protected $cmsController;
+
+    public function __construct(CmsController $cmsController)
+    {
+        // Get function's data of CmsController and pass it to all the view cms
+        $this->cmsController = $cmsController;
+        
+        $countArticle = $this->cmsController->countArticle();
+        
+        View()->share([ 'countArticle' => $countArticle ]);
+    }
+        /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -18,6 +33,7 @@ class NewsAdminController extends Controller
     public function index()
     {
         $news = News::orderBy('created_at'  ,  'desc')->paginate(10);
+
         return view('cms.news.index')->withNews($news);
     }
 

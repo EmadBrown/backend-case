@@ -1,7 +1,8 @@
 <?php
 namespace App\Http\Controllers\Admin;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Cms\CmsController;
+use Illuminate\View\View;
 
 class AdminController extends Controller
 {
@@ -10,9 +11,18 @@ class AdminController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    protected $cmsController;
+        
+    public function __construct(CmsController $cmsController)
     {
         $this->middleware('auth:admin');
+        
+    // Get function's data of CmsController and pass it to all the view cms
+        $this->cmsController = $cmsController;
+        
+        $countArticle = $this->cmsController->countArticle();
+        
+        View()->share([ 'countArticle' => $countArticle ]);
     }
     /**
      * Show the application dashboard.

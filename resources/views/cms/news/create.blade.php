@@ -22,7 +22,7 @@
                 <div class="well">
                             <div class="row">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <h1> Add News </h1>
+                                    <h1> Add Article </h1>
                                     <hr>
                                     {!! Form::open(['route' => 'news.store' , 'data-parsley-validate' => '' , 'Method' => 'Post' , 'files' => true]) !!}
                                          <div class="form-group">

@@ -21,7 +21,7 @@ Auth::routes();
 Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 
 // route Web NewsController for normal user
-Route::get('news' , 'Web\NewsController@index');
+Route::get('news' , 'Web\NewsController@index')->name('news');
 
  
 // Admin Routes

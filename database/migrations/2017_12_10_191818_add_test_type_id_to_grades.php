@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddUserIdToGrades extends Migration
+class AddTestTypeIdToGrades extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddUserIdToGrades extends Migration
     public function up()
     {
         Schema::table('grades', function (Blueprint $table) {
-            $table->integer('user_id')->nullable()->after('sufficient')->unsigned();
+             $table->integer('test_type_id')->nullable()->after('user_id')->unsigned();
         });
     }
 
@@ -26,7 +26,7 @@ class AddUserIdToGrades extends Migration
     public function down()
     {
         Schema::table('grades', function (Blueprint $table) {
-            $table->dropColumn('user_id');
+             $table->dropColumn('test_type_id');
         });
     }
 }
