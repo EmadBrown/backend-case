@@ -59,8 +59,6 @@
 
     {!! Html::script('js/parsley.min.js') !!}
 
-    {!! Html::script('js/select2.min.js') !!}
-    
 @endsection 
 
 

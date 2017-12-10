@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Cms;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Mews\Purifier\Facades\Purifier;
 use Illuminate\Support\Facades\Session;
 use Image;
@@ -18,7 +17,8 @@ class NewsAdminController extends Controller
      */
     public function index()
     {
-        return view('cms.news.index');
+        $news = News::orderBy('created_at'  ,  'desc')->paginate(10);
+        return view('cms.news.index')->withNews($news);
     }
 
     /**
@@ -39,7 +39,7 @@ class NewsAdminController extends Controller
      */
     public function store(Request $request)
     {
-        $news = new News();
+        $article = new News();
    
         // validate the data
         $this->validate($request, array(
@@ -48,10 +48,10 @@ class NewsAdminController extends Controller
                 'description' => 'required|min:10'
         ));
         
-          //  store the data in the News table variable
-          $news->title = ucfirst(trans(Purifier::clean($request->title)));
-          $news->author = lcfirst (trans(Purifier::clean($request->author)));
-          $news->description = ucfirst(trans(Purifier::clean($request->description)));
+          //  store the data in the News table
+          $article->title = ucfirst(trans(Purifier::clean($request->title)));
+          $article->author = ucfirst (trans(Purifier::clean($request->author)));
+          $article->description = ucfirst(trans(Purifier::clean($request->description)));
        
           // upload image
           if($request->hasFile('image_url')){
@@ -60,13 +60,13 @@ class NewsAdminController extends Controller
               $location = public_path('images/news/' . $fileName );
               Image::make($image)->resize(800 , 400)->save($location);
               
-              $news->image_url = $fileName;
+              $article->image_url = $fileName;
           }
           
-          $news->save();
+          $article->save();
           
         // Flash message
-        Session::flash('success','The News has  successfully Added.The title`s News: '. ucfirst( $news->title));
+        Session::flash('success','The Article has  successfully Added.The Article`s title: '. ucfirst( $article->title));
         
          //  view the news  in cms with variable
         return redirect()->route('news.index');
@@ -80,7 +80,9 @@ class NewsAdminController extends Controller
      */
     public function show($id)
     {
-        //
+        $article = News::find($id);
+        
+        return view('cms.news.show')->withArticle($article);
     }
 
     /**
@@ -91,7 +93,9 @@ class NewsAdminController extends Controller
      */
     public function edit($id)
     {
-        //
+         $article = News::find($id);
+         
+         return view('cms.news.edit')->withArticle($article);
     }
 
     /**
@@ -103,7 +107,37 @@ class NewsAdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+          // validate the data
+        $this->validate($request, array(
+                'title' => 'required|max:70',
+                'author' =>  'required|min:3|max:60',
+                'description' => 'required|min:10'
+        ));
+        
+         $article = News::find($id);
+         
+          //  store the data in the News table
+          $article->title = ucfirst(trans(Purifier::clean($request->title)));
+          $article->author = ucfirst (trans(Purifier::clean($request->author)));
+          $article->description = ucfirst(trans(Purifier::clean($request->description)));
+       
+           // upload image
+          if($request->hasFile('image_url')){
+              $image = $request->file('image_url');
+              $fileName = time() . '.' . $image->getClientOriginalExtension();
+              $location = public_path('images/news/' . $fileName );
+              Image::make($image)->resize(800 , 400)->save($location);
+              
+              $article->image_url = $fileName;
+          }
+          
+          $article->update();
+          
+        // Flash message
+        Session::flash('success','The Article has  successfully Updated.The Article`s title: '. ucfirst( $article->title));
+        
+         //  view the news  in cms with variable
+        return redirect()->route('news.index');
     }
 
     /**
@@ -114,6 +148,13 @@ class NewsAdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $article = News::find($id);
+        
+        $article->delete();
+        
+        // Flsh message 
+        Session::flash('info','The Article has successfully Deleted.The Article`s title: '. ucfirst( $article->title));
+        
+        return redirect()->route('news.index');
     }
 }
