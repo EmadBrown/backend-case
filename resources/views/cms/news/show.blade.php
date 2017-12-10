@@ -15,9 +15,15 @@
                                             <label> Article Author:  </label>
                                                 <h2>{{ $article->author }}</h2>
                                                 
+                                                 <label> Article Image:   </label>
+
+
                                              <label> Article Body:   </label>
                                              <p class="lead"> {!! $article->description !!}</p>
                                              <hr> 
+                                                        <div class="col-md-12">
+                                                    <img src="{{ asset('images/news') }}/{{$article->image_url }}" width="250" height="250" >
+                                                </div> 
                                           
                                    </div>
                                     <div class="col-md-4">

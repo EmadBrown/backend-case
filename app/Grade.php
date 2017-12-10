@@ -18,7 +18,7 @@ class Grade extends Model
     
     public function TestType() 
     {
-        return $this->hasMany('App\TestType');
+        return $this->belongsTo('App\TestType');
     }
 }
 

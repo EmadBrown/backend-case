@@ -31,10 +31,10 @@
                                                 {{ Form::text('name' ,  null , array('class' => 'form-control' , 'required' =>'' , 'type' => 'string' , 'data-parsley-maxlength' => '70')) }}
                                         </div>
                                        <div class="form-group">
-                                                {{ Form::label('category_id' , ' Current Category: ') }}
-                                                   <select class="form-control single-select"  name="category_id">
+                                                {{ Form::label('test_type_id' , 'Test Type: ') }}
+                                                   <select class="form-control single-select"  name="test_type_id">
                                                             @foreach($categories as $category)
-                                                                    @if ($category->id == $post->category_id)
+                                                                    @if ($category->id == $grade->test_type_id)
                                                                     <option value="{{$category->id}}" selected=""> {{$category->name}}</option>
                                                                     @else
                                                                      <option value="{{$category->id}}"> {{$category->name}}</option>
@@ -45,14 +45,14 @@
                                         <div class="form-group">
                                                 {{ Form::label('mark' , ' Mark:') }}
                                                 {{ Form::text('mark' ,  null , array('class' => 'form-control' , 'required' =>'' , 'type' => 'string' , 'data-parsley-minlength' => '3' ,  'data-parsley-maxlength' =>'60')) }} 
-                                        </div>
+                                        </div>  
                                         <div class="form-group">
-                                                {{ Form::label('description' , 'Description:') }}
-                                                {{ Form::textarea('description' ,  null , array('class' => 'form-control ' , 'required' =>'' ,'data-parsley-minlength' => '10' )) }}
+                                                {{ Form::label('sufficiënt' , 'Sufficiënt:') }}
+                                                {{ Form::textarea('sufficiënt' ,  null , array('class' => 'form-control ' , 'required' =>'' ,'data-parsley-minlength' => '10' )) }}
                                         </div>
                                     
-                                          {{ Form::submit('Save' , array('class' => 'btn btn-success btn-lm font-style-bold ')) }}
-                                          <a href="{{ url('/news/') }}" class="btn btn-primary btn-lm font-style-bold " role="button">Cancel</a>
+                                          {{ Form::submit('Save' , array('class' => 'btn btn-success btn-lm')) }}
+                                          <a href="{{ url('/grade/') }}" class="btn btn-primary btn-lm font-style-bold " role="button">Cancel</a>
 
                                    {!! Form::close() !!}
                                 </div>

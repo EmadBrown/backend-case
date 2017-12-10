@@ -11,12 +11,16 @@
 
     @include('cms.partials._navigation')  
     
+         @include('cms.partials._messages')
+         
      <div class="col-md-12">
-        <div class="row">
-                @include('cms.partials._navigation-side-bar') 
+                <div class="row">
+
+                          @include('cms.partials._navigation-side-bar') 
 
                             @yield('cms-content')
-        </div>
+                            
+                </div>
      </div>
 
     @include('cms.partials._footer') 

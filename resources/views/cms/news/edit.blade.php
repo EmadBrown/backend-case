@@ -35,10 +35,16 @@
                                                 {{ Form::text('author' ,  null , array('class' => 'form-control' , 'required' =>'' , 'type' => 'string' , 'data-parsley-minlength' => '3' ,  'data-parsley-maxlength' =>'60')) }} 
                                         </div>
                                         <div class="form-group">
-                                                   {{ Form::label('image_url' , 'Upload Feature Image:') }}
-                                                   {{ Form::file('image_url') }}
+                                                <div class="row">
+                                                        <div class="col-md-6">
+                                                                {{ Form::label('image_url' , 'Upload Feature Image:') }}
+                                                                {{ Form::file('image_url') }}
+                                                         </div>
+                                                        <div class="col-md-6">
+                                                            <img src="{{ asset('images/news') }}/{{$article->image_url }}" width="80" height="60" >
+                                                        </div>
+                                                </div>
                                         </div>
-
                                         <div class="form-group">
                                                 {{ Form::label('description' , 'Description:') }}
                                                 {{ Form::textarea('description' ,  null , array('class' => 'form-control ' , 'required' =>'' ,'data-parsley-minlength' => '10' )) }}

@@ -31,7 +31,7 @@ class GradeAdminController extends Controller
     {
         $grades = Grade::orderBy('created_at'  ,  'desc')->paginate(10);
 
-        return view('cms.grade.index')->withNews($grades);
+        return view('cms.grade.index')->withGrades($grades);
     }
 
     /**
@@ -41,7 +41,7 @@ class GradeAdminController extends Controller
      */
     public function create()
     {
-        //
+         return view('cms.grade.create');
     }
 
     /**
@@ -52,7 +52,28 @@ class GradeAdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $grade = new Grade();
+   
+        // validate the data
+        $this->validate($request, array(
+                'name' => 'required|max:70',
+                'mark' =>  'required',
+                'sufficient' => 'required|boolean'
+        ));
+        
+          //  store the data in the News table
+          $grade->name = ucfirst(trans(Purifier::clean($request->name)));
+          $grade->mark = ucfirst (trans(Purifier::clean($request->mark)));
+          $grade->sufficient = ucfirst(trans(Purifier::clean($request->sufficient)));
+
+          
+          $grade->save();
+          
+        // Flash message
+        Session::flash('success','The Grade has  successfully Added.The Student`s name: '. ucfirst( $grade->name));
+        
+         //  view the news  in cms with variable
+        return redirect()->route('grade.index');
     }
 
     /**
@@ -63,7 +84,9 @@ class GradeAdminController extends Controller
      */
     public function show($id)
     {
-        //
+        $grade = Grade::find($id);
+        
+        return view('cms.grade.show')->withGrade($grade);
     }
 
     /**
@@ -74,7 +97,9 @@ class GradeAdminController extends Controller
      */
     public function edit($id)
     {
-        //
+        $grade = Grade::find($id);
+        
+        return view('cms.grade.edit')->withGrade($grade);
     }
 
     /**
@@ -86,7 +111,30 @@ class GradeAdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+  
+   
+        // validate the data
+        $this->validate($request, array(
+                'name' => 'required|max:70',
+                'mark' =>  'required',
+                'sufficient' => 'required|boolean'
+        ));
+        
+        $grade = Grade::find($id);
+        
+          //  store the data in the News table
+          $grade->name = ucfirst(trans(Purifier::clean($request->name)));
+          $grade->mark = ucfirst (trans(Purifier::clean($request->mark)));
+          $grade->sufficient = ucfirst(trans(Purifier::clean($request->sufficient)));
+
+          
+          $grade->update();
+          
+        // Flash message
+        Session::flash('success','The Grade has  successfully Updated.The Student`s name: '. ucfirst( $grade->name));
+        
+         //  view the news  in cms with variable
+        return redirect()->route('grade.index');
     }
 
     /**
@@ -97,6 +145,13 @@ class GradeAdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $grade = Grade::find($id);
+        
+        $grade->delete();
+        
+        // Flsh message 
+        Session::flash('info','The Grade has successfully Deleted.The Student`s name: '. ucfirst( $grade->name));
+        
+        return redirect()->route('grade.index');
     }
 }
