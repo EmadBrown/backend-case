@@ -41,6 +41,11 @@
                                     <span class="fa fa-bars" aria-hidden="true"></span><a href="{{route('news.index')}}" class="text-info"> News List  <span class="badge">42</span></a>
                                 </td>
                             </tr>
+                             <tr>
+                             <td class="{{ Request::segment(1) == 'news' ? 'alert-info' : '' }}">
+                                 <span class=" fa fa-rss-square" aria-hidden="true" ></span><a href="{{ route('news.create') }}" class="text-info"> Create </a>
+                             </td>
+                         </tr>
                         </table>
                     </div>
             </div>
