@@ -47,7 +47,5 @@ Route::middleware('auth:admin')->group( function () {
    Route::resource('/news' , 'Cms\NewsAdminController' );
    Route::resource('/grade' , 'Cms\GradeAdminController' );
    Route::resource('/test_type' , 'Cms\TestTypeAdminController' , ['except' => ['create' , 'show' , 'edit'] ]);
-   Route::get('/register' , 'Auth\RegisterController@showRegistrationForm' );
-   Route::post('/register' , 'Auth\RegisterController@register');
 });
 

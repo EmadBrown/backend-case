@@ -16,7 +16,9 @@ use Illuminate\Http\Request;
 Route::get('/news' , 'Api\NewsApiController@index');
    
 Route::middleware('auth:api')->group( function () {
-
+    
+    Route::post('/grade/{studentNumber}' , 'Api\GradeApiController@index');
+    
 });
 
  
