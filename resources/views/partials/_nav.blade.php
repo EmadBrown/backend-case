@@ -51,7 +51,6 @@
                                     </li>
                                        @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
@@ -81,12 +80,11 @@
                                             <form role="form">
                                                 <!-- Input Group -->
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control"
-                                                           placeholder="Type Something"> <span class="input-group-btn">
-                                                                            <button type="submit"
-                                                                                    class="btn btn-primary">Search
-                                                                            </button>
-                                                                        </span></div>
+                                                    <input type="text" class="form-control" placeholder="Type Something"> 
+                                                    <span class="input-group-btn">
+                                                             <button type="submit" class="btn btn-primary">Search</button>
+                                                    </span>
+                                                </div>
                                             </form>
                                         </div>
                                     </li>
@@ -114,12 +112,12 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="#navbar-collapse-1">
                         <ul class="nav navbar-nav main-nav">
-                            <li class="active"><a href="index.html">News</a></li>
-                            <li><a href="category.html">Mobile</a></li>
-                            <li><a href="blog.html">Tablet</a></li>
-                            <li><a href="blog.html">Gadgets</a></li>
-                            <li><a href="blog.html">Camera</a></li>
-                            <li><a href="blog.html">Design</a></li>
+                            <li class="active"><a href=" {{url('/')}} ">News</a></li>
+                            <li><a href="{{url('/')}}">Mobile</a></li>
+                            <li><a href="{{url('/')}}">Tablet</a></li>
+                            <li><a href="{{url('/')}}">Gadgets</a></li>
+                            <li><a href="{{url('/')}}">Camera</a></li>
+                            <li><a href="{{url('/')}}">Design</a></li>
                             <li class="dropdown m-menu-fw"><a href="#" data-toggle="dropdown" class="dropdown-toggle">More
                                 <span><i class="fa fa-angle-down"></i></span></a>
                                 <ul class="dropdown-menu">

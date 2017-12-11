@@ -9,22 +9,26 @@
 <body>
     <div id="app">
 
-    @include('cms.partials._navigation')  
-    
-         @include('cms.partials._messages')
+        @include('cms.partials._navigation')  
+
+        @include('cms.partials._messages')
+
+        <div class="col-md-12">
+                   <div class="row">
+
+                             @include('cms.partials._navigation-side-bar') 
+
+                               @yield('cms-content')
+
+                   </div>
+        </div>
+
+        <footer>
+            
+                   @include('cms.partials._footer') 
+                   
+       </footer>   
          
-     <div class="col-md-12">
-                <div class="row">
-
-                          @include('cms.partials._navigation-side-bar') 
-
-                            @yield('cms-content')
-                            
-                </div>
-     </div>
-
-    @include('cms.partials._footer') 
-                
     </div>
         <!-- Scripts -->
      @include('cms.partials._javascript')  

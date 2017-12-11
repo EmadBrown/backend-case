@@ -23,12 +23,27 @@
                                                 {{ Form::text('name' ,  null , array('class' => 'form-control' , 'required' =>'' , 'type' => 'string' , 'data-parsley-maxlength' => '70')) }}
                                         </div>
                                        <div class="form-group">
-                                                {{ Form::label('test_type_id' , 'Test Type: ') }}
-                                                   <select class="form-control single-select"  name="test_type_id">
-                                                            @foreach( $testTypes as $testType )
-                                                                    <option value="{{$testType->id}}" selected=""> {{$testType->test_type}}</option>
+                                           <div class="row">
+                                               <div class="col-md-6">
+                                                    {{ Form::label('user_id' , 'Student Number: ') }}
+                                                   <select class="form-control single-select"  name="user_id" data-parsley-required='true'>
+                                                        <option value="" selected="" ></option>
+                                                            @foreach( $users as $user )
+                                                                    <option value="{{$user->id}}"> {{$user->student_number}}</option>
                                                             @endforeach
                                                    </select>
+                                               </div>
+                                                <div class="col-md-6">
+                                                    {{ Form::label('test_type_id' , 'Test Type: ') }}
+                                                   <select class="form-control single-select"  name="test_type_id" data-parsley-required='true'>
+                                                            <option value="" selected="" ></option>
+                                                            @foreach( $testTypes as $testType )
+                                                                    <option value="{{$testType->id}}"> {{$testType->test_type}}</option>
+                                                            @endforeach
+                                                   </select>
+                                               </div>
+                                           </div>
+                                               
                                         </div>
                                         <div class="form-group">
                                                 {{ Form::label('mark' , ' Mark:') }}

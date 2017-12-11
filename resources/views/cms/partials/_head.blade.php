@@ -10,6 +10,6 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     
-    <link href="{{{ asset('images/stucomm.png') }}}" rel="stylesheet">
+    <link href="{{{ asset('images/stucomm.png') }}}"  rel="icon">
     
     {!! Html::style('css/navigation-side-bar-admin-layout.css') !!} 

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Grade;
 
@@ -15,7 +14,7 @@ class GradeApiController extends Controller
         if( Auth::user()->student_number == $studentNumber )
         {
             // Get user from Table Users By Student Number
-            $user = User::all()->Where('student_number', '=', $studentNumber)->first();
+            $user = Grade::all()->Where('student_number', '=', $studentNumber)->first();
             return $user;
         }
         else

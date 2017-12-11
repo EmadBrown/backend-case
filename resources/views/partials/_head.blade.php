@@ -8,7 +8,7 @@
     <title>Backend-Case | @yield('title')</title>
 
     <!-- favicon -->
-    <link href="{{ asset('assets/img/favicon.png') }}" rel=icon>
+        <link href="{{{ asset('images/stucomm.png') }}}" rel="icon">
 
     <!-- web-fonts -->
     <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,500' rel='stylesheet' type='text/css'>

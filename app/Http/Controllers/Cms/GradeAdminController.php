@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 use App\Services\CmsServices;
-use App\Services\TestTypeServices;
+use App\Services\GradeServices;
 use Mews\Purifier\Facades\Purifier;
 use Illuminate\Support\Facades\Session;
 use App\Grade;
@@ -15,9 +15,9 @@ class GradeAdminController extends Controller
 {
     protected $cmsServices;
     
-    protected $testTypeServices;
+    protected $gradeServices;
 
-    public function __construct(CmsServices $cmsServices , TestTypeServices $testTypeServices )
+    public function __construct(CmsServices $cmsServices , GradeServices $gradeServices )
     {
         // Get function's data of CmsServices and pass it to all the view cms
         $this->cmsServices = $cmsServices;
@@ -27,7 +27,7 @@ class GradeAdminController extends Controller
         View()->share([ 'countArticle' => $countArticle ]);
         
        // Getting function's  of TestTypeServices 
-            $this->testTypeServices = $testTypeServices;
+            $this->gradeServices = $gradeServices;
     }
     
     /**
@@ -49,9 +49,11 @@ class GradeAdminController extends Controller
      */
     public function create()
     {
-        $testTypes = $this->testTypeServices->getTestTypes();
+        $testTypes = $this->gradeServices->getTestTypes();
         
-         return view('cms.grades.create')->withTestTypes($testTypes);
+        $users = $this->gradeServices->getUsers();
+        
+         return view('cms.grades.create')->withTestTypes($testTypes)->withUsers($users);
     }
 
     /**
@@ -69,6 +71,7 @@ class GradeAdminController extends Controller
                 'name' => 'required|max:70',
                 'mark' =>  'required',
                 'test_type_id' =>  'required',
+                'user_id' => 'required',
                 'sufficient' => 'required'
         ),
                 
@@ -80,13 +83,14 @@ class GradeAdminController extends Controller
         
         
           //  store the data in the News table
-          $grade->name = ucfirst(trans(Purifier::clean($request->name)));
-          $grade->mark = ucfirst (trans(Purifier::clean($request->mark)));
-         $grade->test_type_id = $request->test_type_id;
-          $grade->sufficient = ucfirst(trans(Purifier::clean($request->sufficient)));
+            $grade->name = ucfirst(trans(Purifier::clean($request->name)));
+            $grade->mark = ucfirst (trans(Purifier::clean($request->mark)));
+            $grade->test_type_id = $request->test_type_id;
+            $grade->user_id = $request->user_id;
+            $grade->sufficient = ucfirst(trans(Purifier::clean($request->sufficient)));
 
           
-          $grade->save();
+            $grade->save();
           
         // Flash message
         Session::flash('success','The Grade has  successfully Added.The Student`s name: '. ucfirst( $grade->name));
@@ -105,9 +109,11 @@ class GradeAdminController extends Controller
     {
         $grade = Grade::find($id);
         
-        $testTypes = $this->testTypeServices->getTestTypes();
+        $testTypes = $this->gradeServices->getTestTypes();
+
+         $users = $this->gradeServices->getUsers();
              
-        return view('cms.grades.edit')->withGrade($grade)->withTestTypes($testTypes);
+        return view('cms.grades.edit')->withGrade($grade)->withTestTypes($testTypes)->withUsers($users);
     }
 
     /**
@@ -126,6 +132,7 @@ class GradeAdminController extends Controller
                 'name' => 'required|max:70',
                 'mark' =>  'required',
                 'test_type_id' =>  'required',
+                'user_id' => 'required',
                 'sufficient' => 'required'
         ),
                 
@@ -140,6 +147,7 @@ class GradeAdminController extends Controller
           $grade->name = ucfirst(trans(Purifier::clean($request->name)));
           $grade->mark = ucfirst (trans(Purifier::clean($request->mark)));
           $grade->test_type_id = $request->test_type_id;
+          $grade->user_id = $request->user_id;
           $grade->sufficient = ucfirst(trans(Purifier::clean($request->sufficient)));
 
           

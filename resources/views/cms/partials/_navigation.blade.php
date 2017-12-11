@@ -36,7 +36,7 @@
 
                                 <ul class="dropdown-menu">
                                     
-                                    @if (\Request::is('admin') and Auth::guard('admin')->check())
+                                    @if (Auth::guard('admin')->check())
                                             <li>
                                                     <a href="{{ route('admin.logout') }}">
                                                       Logout
@@ -45,7 +45,7 @@
                                     @endif
                                 </ul>
                             </li>
-                        @endguest
+                    @endguest
                     </ul>
                 </div>
             </div>

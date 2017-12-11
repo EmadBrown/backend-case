@@ -11,17 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('pages.news');
-});
+// route Web NewsController for normal user
+Route::get('/' , 'Web\NewsController@index')->name('home');
 
 Auth::routes();
 
 // Route  logout Normal user
 Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 
-// route Web NewsController for normal user
-Route::get('news' , 'Web\NewsController@index')->name('news');
+
 
  
 // Admin Routes

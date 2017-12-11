@@ -43,28 +43,27 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($e instanceof Error)
-        {
-                if ($request->ajax()) 
-                {
-                    return response(['error' => $e->getMessage()], 400);
-                } 
-                
-                else 
-                {
-                    return $e->getMessage();
-                }
-        }
-
-        if ($this->isHttpException($e))
-        {
-            return $this->renderHttpException($e);
-        } 
+//        if ($e instanceof Error)
+//        {
+//                if ($request->ajax()) 
+//                {
+//                    return response(['error' => $e->getMessage()], 400);
+//                } 
+//                
+//                else 
+//                {
+//                    return $e->getMessage();
+//                }
+//        }
+//
+//        if ($this->isHttpException($e))
+//        {
+//            return $this->renderHttpException($e);
+//        } 
             
-        else 
-        {
-            return parent::render($request, $e);
-        }
+            
+            return parent::render($request, $exception);
+            
     }
     
     
