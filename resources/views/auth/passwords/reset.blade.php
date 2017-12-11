@@ -19,7 +19,7 @@
                                                <input type="hidden" name="token" value="{{ $token }}">
                                               <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                                       <label for="email" class="control-label">E-Mail Address</label>
-                                                      <input type="text" class="form-control" id="email" name="email" value=" {{ old('email') }}" required="" title="Please enter your email" placeholder="Email">
+                                                      <input type="text" class="form-control" id="email" name="email"  required autofocus  title="Please enter your email" placeholder="Email">
                                                           @if ($errors->has('email'))
                                                               <span class="help-block">
                                                                   <strong>{{ $errors->first('email') }}</strong>
@@ -30,7 +30,7 @@
 
                                               <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                               <label for="password" class="control-label">Password</label>
-                                                      <input id="password" type="password" class="form-control" name="password" required>
+                                                      <input id="password" type="password" class="form-control" name="password" required autofocus  placeholder="Password">
 
                                                       @if ($errors->has('password'))
                                                           <span class="help-block">
@@ -41,7 +41,7 @@
 
                                               <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                                                       <label for="password-confirm" class="control-label">Confirm Password</label>
-                                                          <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                                                          <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autofocus  placeholder="Confirm Password">
 
                                                           @if ($errors->has('password_confirmation'))
                                                               <span class="help-block">
