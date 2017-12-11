@@ -9,6 +9,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
     <link href="{{{ asset('images/stucomm.png') }}}" rel="stylesheet">
     
     {!! Html::style('css/navigation-side-bar-admin-layout.css') !!} 

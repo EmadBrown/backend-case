@@ -4,14 +4,11 @@
 
 @section('cms-content')
 
-<div class="col-sm-10 col-md-10">
+    <div class="col-sm-10 col-md-10">
             <div class="well">
                     <div class="row">
                              <div class="col-md-9">
-                                        <h1>Grades  <small  class="badge">{{ $grades->count() }} </small></h1>
-                             </div>
-                              <div class="col-md-3">
-
+                                    <h1>Grades  <small  class="badge">{{ $grades->count() }} </small></h1>
                              </div>
                     </div>
                     <div class="row">
@@ -58,6 +55,4 @@
                     </div>
             </div>
 </div>
-        </div>
- </div>
 @endsection

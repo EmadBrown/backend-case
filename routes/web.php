@@ -44,6 +44,6 @@ Route::prefix('admin')->group(function(){
 Route::middleware('auth:admin')->group( function () {
    Route::resource('/news' , 'Cms\NewsAdminController' );
    Route::resource('/grade' , 'Cms\GradeAdminController' );
-   Route::resource('/test_type' , 'Cms\TestTypeAdminController' );
+   Route::resource('/test_type' , 'Cms\TestTypeAdminController' , ['except' => ['create' , 'show' , 'edit'] ]);
 });
 
