@@ -43,26 +43,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-//        if ($e instanceof Error)
-//        {
-//                if ($request->ajax()) 
-//                {
-//                    return response(['error' => $e->getMessage()], 400);
-//                } 
-//                
-//                else 
-//                {
-//                    return $e->getMessage();
-//                }
-//        }
-//
-//        if ($this->isHttpException($e))
-//        {
-//            return $this->renderHttpException($e);
-//        } 
-            
-            
-            return parent::render($request, $exception);
+
+            return parent::render($request, $exception);  
             
     }
     
@@ -75,18 +57,26 @@ class Handler extends ExceptionHandler
         
         $guard = array_get($exception->guards(), 0);
         
-        switch ($guard) {
+        switch ($guard) 
+        {
             
             case 'admin':
                 $login = 'admin.login';
                 break;
             
             default:
-                $login = 'login';
+                $login = 'home';
                 break;
         }
-        
-        
-        return redirect()->guest(route($login));
+            
+        if($login == 'admin.login')
+        {
+            return redirect()->guest(route($login));
+        }
+        else
+        {
+            return redirect()->guest(route($login));
+        }
+    
     }
 }   

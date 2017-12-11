@@ -5,7 +5,7 @@
         <div id="login-overlay" class="modal-dialog">
           <div class="modal-content">
                 <div class="modal-body">
-                        <div class="panel-heading"><strong>Reset Password</strong></div>
+                        <div class="panel-heading"><strong>Login </strong></div>
                               <div class="row">
                                   <div class="col-xs-12">
                                       <div class="well">

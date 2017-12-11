@@ -10,12 +10,16 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', function () {
+    return view('pages.news');
+});
 
-// route Web NewsController for normal user
-Route::get('/' , 'Web\NewsController@index')->name('home');
 
 Auth::routes();
 
+// route Web NewsController for normal user
+Route::get('/home' , 'Web\NewsController@index')->name('home');
+ 
 // Route  logout Normal user
 Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 
@@ -43,5 +47,7 @@ Route::middleware('auth:admin')->group( function () {
    Route::resource('/news' , 'Cms\NewsAdminController' );
    Route::resource('/grade' , 'Cms\GradeAdminController' );
    Route::resource('/test_type' , 'Cms\TestTypeAdminController' , ['except' => ['create' , 'show' , 'edit'] ]);
+   Route::get('/register' , 'Auth\RegisterController@showRegistrationForm' );
+   Route::post('/register' , 'Auth\RegisterController@register');
 });
 

@@ -1,4 +1,4 @@
-@extends('main')
+@extends('cms.layout')
 
 @section('stylesheet')
         <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">

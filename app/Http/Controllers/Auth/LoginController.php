@@ -21,6 +21,8 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
+    
+    protected $loginPath = 'pages.news'; 
 
     /**
      * Where to redirect users after login.
@@ -34,6 +36,8 @@ class LoginController extends Controller
      *
      * @return void
      */
+
+    
     public function __construct()
     {
          $this->middleware('guest', ['except' => ['logout', 'userLogout']]);
@@ -55,7 +59,7 @@ class LoginController extends Controller
     public function userLogout()
     {
         Auth::guard('web')->logout();
-        return redirect('/');
+        return redirect('/home');
     }
     
 }
