@@ -29,22 +29,20 @@
                         @guest
                             <li><a href="{{ route('admin.login') }}">Login</a></li>
                         @else
+                        @if (Auth::guard('admin')->check())
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                        {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-
                                 <ul class="dropdown-menu">
-                                    
-                                    @if (Auth::guard('admin')->check())
                                             <li>
                                                     <a href="{{ route('admin.logout') }}">
                                                       Logout
                                                   </a>
                                             </li>
-                                    @endif
                                 </ul>
                             </li>
+                            @endif
                     @endguest
                     </ul>
                 </div>
