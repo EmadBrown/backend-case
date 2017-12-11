@@ -43,10 +43,17 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-
-            return parent::render($request, $exception);  
-            
-    }
+       if ($this->isHttpException($exception))
+        {       
+                if($exception instanceof NotFoundHttpException)
+                {
+                    return response()->view('errors.404', [], 404);
+                }
+                return $this->renderHttpException($exception);
+        }
+        
+        return parent::render($request, $exception);  
+    }   
     
     
     protected function unauthenticated($request, AuthenticationException $exception) {
