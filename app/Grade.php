@@ -11,12 +11,12 @@ class Grade extends Model
     ];
 
     
-    public function User() 
+    public function user() 
     {
         return $this->belongsTo('App\User');
     }
     
-    public function TestType() 
+    public function testType() 
     {
         return $this->belongsTo('App\TestType');
     }

@@ -4,22 +4,30 @@ namespace App\Http\Controllers\Cms;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Grade;
-use App\Http\Controllers\Cms\CmsController;
 use Illuminate\View\View;
+use App\Services\CmsServices;
+use App\Services\TestTypeServices;
+use Mews\Purifier\Facades\Purifier;
+use Illuminate\Support\Facades\Session;
+use App\Grade;
 
 class GradeAdminController extends Controller
 {
-     protected $cmsController;
+    protected $cmsServices;
+    
+    protected $testTypeServices;
 
-    public function __construct(CmsController $cmsController)
+    public function __construct(CmsServices $cmsServices , TestTypeServices $testTypeServices )
     {
-        // Get function's data of CmsController and pass it to all the view cms
-        $this->cmsController = $cmsController;
+        // Get function's data of CmsServices and pass it to all the view cms
+        $this->cmsServices = $cmsServices;
         
-        $countArticle = $this->cmsController->countArticle();
-        
+        $countArticle = $this->cmsServices->countArticle();
+
         View()->share([ 'countArticle' => $countArticle ]);
+        
+       // Getting function's  of TestTypeServices 
+            $this->testTypeServices = $testTypeServices;
     }
     
     /**
@@ -30,8 +38,8 @@ class GradeAdminController extends Controller
     public function index()
     {
         $grades = Grade::orderBy('created_at'  ,  'desc')->paginate(10);
-
-        return view('cms.grade.index')->withGrades($grades);
+        
+        return view('cms.grades.index')->withGrades($grades);
     }
 
     /**
@@ -41,7 +49,9 @@ class GradeAdminController extends Controller
      */
     public function create()
     {
-         return view('cms.grade.create');
+        $testTypes = $this->testTypeServices->getTestTypes();
+        
+         return view('cms.grades.create')->withTestTypes($testTypes);
     }
 
     /**
@@ -58,12 +68,21 @@ class GradeAdminController extends Controller
         $this->validate($request, array(
                 'name' => 'required|max:70',
                 'mark' =>  'required',
-                'sufficient' => 'required|boolean'
+                'test_type_id' =>  'required',
+                'sufficient' => 'required'
+        ),
+                
+                $messsages = array(
+                'test_type_id.required'=>'First Add Test Type Then You can create grade form!',
         ));
+        
+      
+        
         
           //  store the data in the News table
           $grade->name = ucfirst(trans(Purifier::clean($request->name)));
           $grade->mark = ucfirst (trans(Purifier::clean($request->mark)));
+         $grade->test_type_id = $request->test_type_id;
           $grade->sufficient = ucfirst(trans(Purifier::clean($request->sufficient)));
 
           
@@ -77,19 +96,6 @@ class GradeAdminController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $grade = Grade::find($id);
-        
-        return view('cms.grade.show')->withGrade($grade);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -99,7 +105,9 @@ class GradeAdminController extends Controller
     {
         $grade = Grade::find($id);
         
-        return view('cms.grade.edit')->withGrade($grade);
+        $testTypes = $this->testTypeServices->getTestTypes();
+             
+        return view('cms.grades.edit')->withGrade($grade)->withTestTypes($testTypes);
     }
 
     /**
@@ -117,14 +125,21 @@ class GradeAdminController extends Controller
         $this->validate($request, array(
                 'name' => 'required|max:70',
                 'mark' =>  'required',
-                'sufficient' => 'required|boolean'
+                'test_type_id' =>  'required',
+                'sufficient' => 'required'
+        ),
+                
+                $messsages = array(
+                'test_type_id.required'=>'First Add Test Type Then You can create grade form!',
         ));
+        
         
         $grade = Grade::find($id);
         
           //  store the data in the News table
           $grade->name = ucfirst(trans(Purifier::clean($request->name)));
           $grade->mark = ucfirst (trans(Purifier::clean($request->mark)));
+          $grade->test_type_id = $request->test_type_id;
           $grade->sufficient = ucfirst(trans(Purifier::clean($request->sufficient)));
 
           

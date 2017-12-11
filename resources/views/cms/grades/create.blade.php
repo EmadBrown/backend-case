@@ -4,14 +4,7 @@
 
 @section('cms-stylesheet')
     
-   <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-   
-    <script>tinymce.init({
-            selector:'textarea',
-            plugins: 'link image imagetools',
-            menubar: false
-             });
-    </script>
+    {!! Html::style('css/select2.min.css') !!}
     
     {!! Html::style('css/parsley.css') !!}
     
@@ -24,27 +17,32 @@
                                 <div class="col-md-8 col-md-offset-2">
                                     <h1> Add Article </h1>
                                     <hr>
-                                    {!! Form::open(['route' => 'news.store' , 'data-parsley-validate' => '' , 'Method' => 'Post' , 'files' => true]) !!}
+                                    {!! Form::open(['route' => 'grade.store' , 'data-parsley-validate' => '' , 'Method' => 'Post' ]) !!}
                                          <div class="form-group">
-                                                {{ Form::label('title' , 'Title:')  }}
-                                                {{ Form::text('title' ,  null , array('class' => 'form-control' , 'required' =>'' , 'type' => 'string' , 'data-parsley-maxlength' => '70')) }}
+                                                {{ Form::label('name' , 'Name:')  }}
+                                                {{ Form::text('name' ,  null , array('class' => 'form-control' , 'required' =>'' , 'type' => 'string' , 'data-parsley-maxlength' => '70')) }}
+                                        </div>
+                                       <div class="form-group">
+                                                {{ Form::label('test_type_id' , 'Test Type: ') }}
+                                                   <select class="form-control single-select"  name="test_type_id">
+                                                            @foreach( $testTypes as $testType )
+                                                                    <option value="{{$testType->id}}" selected=""> {{$testType->test_type}}</option>
+                                                            @endforeach
+                                                   </select>
                                         </div>
                                         <div class="form-group">
-                                                {{ Form::label('author' , ' Author:') }}
-                                                {{ Form::text('author' ,  null , array('class' => 'form-control' , 'required' =>'' , 'type' => 'string' , 'data-parsley-minlength' => '3' ,  'data-parsley-maxlength' =>'60')) }} 
-                                        </div>
+                                                {{ Form::label('mark' , ' Mark:') }}
+                                                {{ Form::text('mark' ,  null , array('class' => 'form-control' , 'required' =>'' , 'type' => 'integer' ,  'data-parsley-maxlength' =>'60')) }} 
+                                        </div>  
                                         <div class="form-group">
-                                                   {{ Form::label('image_url' , 'Upload Feature Image:') }}
-                                                   {{ Form::file('image_url') }}
-                                        </div>
-
-                                        <div class="form-group">
-                                                {{ Form::label('description' , 'Description:') }}
-                                                {{ Form::textarea('description' ,  null , array('class' => 'form-control ' , 'required' =>'' ,'data-parsley-minlength' => '3' )) }}
+                                                {{ Form::label('sufficient' , 'Sufficient:') }}
+                                                {{ Form::radio('sufficient', 'Sufficient', array('class' => 'form-control ' , 'required' =>'' , 'type' => 'boolean' )) }}
+                                                {{ Form::label('inadequate' , 'Inadequate:') }}
+                                                {{ Form::radio('sufficient', 'Inadequate', array('class' => 'form-control ' , 'required' =>'' , 'type' => 'boolean' )) }}
                                         </div>
                                     
-                                          {{ Form::submit('Save' , array('class' => 'btn btn-success btn-lm font-style-bold ')) }}
-                                          <a href="{{ url('/admin/') }}" class="btn btn-primary btn-lm font-style-bold " role="button">Cancel</a>
+                                          {{ Form::submit('Save' , array('class' => 'btn btn-success btn-lm')) }}
+                                          <a href="{{ url('/grade/') }}" class="btn btn-primary btn-lm font-style-bold " role="button">Cancel</a>
 
                                    {!! Form::close() !!}
                                 </div>
@@ -58,6 +56,17 @@
 @section('cms-script')
 
     {!! Html::script('js/parsley.min.js') !!}
+    
+      {!! Html::script('js/select2.min.js') !!}
+      
+       <script type="text/javascript">
+     
+            $(document).ready(function()
+            {
+                $('.single-select').select2();
+            });
+
+    </script>
 
 @endsection 
 

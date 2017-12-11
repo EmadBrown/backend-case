@@ -6,11 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class TestType extends Model
 {
+    
+ 
+     
     protected $fillable = [
         'test_type', 
     ];
     
-    public function Grade()
+    public function grade()
     {
         return $this->hasMany('App\Grade');
     }

@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Cms\CmsController;
 use Illuminate\View\View;
+use App\Services\CmsServices;
 
 class AdminController extends Controller
 {
@@ -11,17 +11,15 @@ class AdminController extends Controller
      *
      * @return void
      */
-    protected $cmsController;
-        
-    public function __construct(CmsController $cmsController)
+   protected $cmsServices;
+
+    public function __construct(CmsServices $cmsServices)
     {
-        $this->middleware('auth:admin');
+        // Get function's data of CmsController and pass it to all the view cms
+        $this->cmsServices = $cmsServices;
         
-    // Get function's data of CmsController and pass it to all the view cms
-        $this->cmsController = $cmsController;
-        
-        $countArticle = $this->cmsController->countArticle();
-        
+        $countArticle = $this->cmsServices->countArticle();
+
         View()->share([ 'countArticle' => $countArticle ]);
     }
     /**
@@ -31,6 +29,6 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('cms.grades.index');
+        return redirect()->route('grade.index');
     }
 }

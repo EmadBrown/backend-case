@@ -3,17 +3,10 @@
 @section('title' , '| Edit')
 
 @section('cms-stylesheet')
-
     
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-    <script>tinymce.init({
-            selector:'textarea',
-            plugins: 'link image imagetools',
-            menubar: false
-             });
-    </script>
+    {!! Html::style('css/select2.min.css') !!}
     
-        {!! Html::style('css/parsley.css') !!}
+    {!! Html::style('css/parsley.css') !!}
     
 @endsection 
 
@@ -26,29 +19,31 @@
                                     <h1> Edit  Article </h1>
                                     <hr>
                                     {!! Form::model($grade , ['route' => [ 'grade.update' , $grade->id ] , 'data-parsley-validate' => '' , 'method' => 'PUT']) !!}
-                                           <div class="form-group">
+                                          <div class="form-group">
                                                 {{ Form::label('name' , 'Name:')  }}
                                                 {{ Form::text('name' ,  null , array('class' => 'form-control' , 'required' =>'' , 'type' => 'string' , 'data-parsley-maxlength' => '70')) }}
                                         </div>
                                        <div class="form-group">
                                                 {{ Form::label('test_type_id' , 'Test Type: ') }}
                                                    <select class="form-control single-select"  name="test_type_id">
-                                                            @foreach($categories as $category)
-                                                                    @if ($category->id == $grade->test_type_id)
-                                                                    <option value="{{$category->id}}" selected=""> {{$category->name}}</option>
+                                                            @foreach( $testTypes as $testType )
+                                                                    @if ($testType->id == $grade->test_type_id)
+                                                                          <option value="{{$testType->id}}" selected=""> {{$testType->test_type}}</option>
                                                                     @else
-                                                                     <option value="{{$category->id}}"> {{$category->name}}</option>
+                                                                          <option value="{{$testType->id}}" > {{$testType->test_type}}</option>
                                                                     @endif
                                                             @endforeach
                                                    </select>
                                         </div>
                                         <div class="form-group">
                                                 {{ Form::label('mark' , ' Mark:') }}
-                                                {{ Form::text('mark' ,  null , array('class' => 'form-control' , 'required' =>'' , 'type' => 'string' , 'data-parsley-minlength' => '3' ,  'data-parsley-maxlength' =>'60')) }} 
+                                                {{ Form::text('mark' ,  null , array('class' => 'form-control' , 'required' =>'' , 'type' => 'integer' ,  'data-parsley-maxlength' =>'60')) }} 
                                         </div>  
                                         <div class="form-group">
-                                                {{ Form::label('sufficiënt' , 'Sufficiënt:') }}
-                                                {{ Form::textarea('sufficiënt' ,  null , array('class' => 'form-control ' , 'required' =>'' ,'data-parsley-minlength' => '10' )) }}
+                                                {{ Form::label('sufficient' , 'Sufficient:') }}
+                                                {{ Form::radio('sufficient', 'Sufficient', array('class' => 'form-control ' , 'required' =>'' , 'type' => 'boolean' )) }}
+                                                {{ Form::label('inadequate' , 'Inadequate:') }}
+                                                {{ Form::radio('sufficient', 'Inadequate', array('class' => 'form-control ' , 'required' =>'' , 'type' => 'boolean' )) }}
                                         </div>
                                     
                                           {{ Form::submit('Save' , array('class' => 'btn btn-success btn-lm')) }}
@@ -67,6 +62,16 @@
 
     {!! Html::script('js/parsley.min.js') !!}
     
+      {!! Html::script('js/select2.min.js') !!}
+      
+       <script type="text/javascript">
+     
+            $(document).ready(function()
+            {
+                $('.single-select').select2();
+            });
+
+    </script>
 @endsection 
 
 

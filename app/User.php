@@ -33,7 +33,7 @@ class User extends Authenticatable
         $this->notify(new UserResetPasswordNotification($token));
     }
     
-    public function Grade()
+    public function grade()
     {
         return $this->hasMany('App\Grade');
     }

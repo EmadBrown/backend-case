@@ -8,20 +8,20 @@ use Mews\Purifier\Facades\Purifier;
 use Illuminate\Support\Facades\Session;
 use Image;
 use App\News;
-use App\Http\Controllers\Cms\CmsController;
+use App\Services\CmsServices;
 use Illuminate\View\View;
 
 class NewsAdminController extends Controller
 {
  
-    protected $cmsController;
+    protected $cmsServices;
 
-    public function __construct(CmsController $cmsController)
+    public function __construct(CmsServices $cmsServices)
     {
-        // Get function's data of CmsController and pass it to all the view cms
-        $this->cmsController = $cmsController;
+        // Get function's data of CmsServices r and pass it to all the view cms
+        $this->cmsServices = $cmsServices;
         
-        $countArticle = $this->cmsController->countArticle();
+        $countArticle = $this->cmsServices->countArticle();
         
         View()->share([ 'countArticle' => $countArticle ]);
     }
