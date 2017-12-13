@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Mews\Purifier\Facades\Purifier;
 use Illuminate\Support\Facades\Session;
 use App\Services\CmsServices;
-use App\TestType;
+use App\Models\TestType;
 
 class TestTypeAdminController extends Controller
 {

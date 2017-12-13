@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\News;
+use App\Models\News;
 
 
 class CmsServices {

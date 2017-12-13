@@ -3,7 +3,7 @@
  
 namespace App\Services;
 
-use App\TestType;
+use App\Models\TestType;
 use App\User;
 
 class GradeServices 

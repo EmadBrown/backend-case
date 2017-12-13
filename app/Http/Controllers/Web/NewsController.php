@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\News;
+use App\Models\News;
 
 class NewsController extends Controller
 {

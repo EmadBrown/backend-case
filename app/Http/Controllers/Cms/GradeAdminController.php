@@ -9,7 +9,7 @@ use App\Services\CmsServices;
 use App\Services\GradeServices;
 use Mews\Purifier\Facades\Purifier;
 use Illuminate\Support\Facades\Session;
-use App\Grade;
+use App\Models\Grade;
 
 class GradeAdminController extends Controller
 {

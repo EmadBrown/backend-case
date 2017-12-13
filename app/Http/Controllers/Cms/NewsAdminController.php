@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Mews\Purifier\Facades\Purifier;
 use Illuminate\Support\Facades\Session;
 use Image;
-use App\News;
+use App\Models\News;
 use App\Services\CmsServices;
 use Illuminate\View\View;
 
