@@ -6,15 +6,41 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Mews\Purifier\Facades\Purifier;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\RedirectResponse;
 use App\Services\CmsServices;
+use App\Services\TestTypeServices;
+use App\Http\Validators\TestTypeValidator;
 use App\Models\TestType;
 
 class TestTypeAdminController extends Controller
 {
+    /**
+     *
+     * @var CmsServices 
+     */
+    private $cmsServices;
     
-    protected $cmsServices;
-
-    public function __construct(CmsServices $cmsServices)
+    /**
+     * @var TestTypeValidator; 
+     */
+    private $formValidator;
+    
+    /**
+     * @var TestTypeServices 
+     */
+    private $testTypeServices;
+    
+    /**
+     * FacetsController constructor.
+     * @param CmsServices $cmsServices
+     * @param TestTypeValidator $formValidatore
+     * @param TestTypeServices $testTypeServices
+     */
+    public function __construct(
+            CmsServices $cmsServices,
+            TestTypeValidator $formValidator,
+            TestTypeServices $testTypeServices
+            )
     {
         // Get function's data of CmsServices and pass it to all the view cms
         $this->cmsServices = $cmsServices;
@@ -22,6 +48,10 @@ class TestTypeAdminController extends Controller
         $countArticle = $this->cmsServices->countArticle();
         
         View()->share([ 'countArticle' => $countArticle ]);
+        
+        $this->formValidator = $formValidator;
+        
+        $this->testTypeServices = $testTypeServices; 
     }
     /**
      * Display a listing of the resource.
@@ -43,24 +73,19 @@ class TestTypeAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $testType = new TestType();
-   
-        // validate the data
-        $this->validate($request, array(
-                'test_type' => 'required'
-        ));
+    {     
         
-          //  store the data in the Test_types table
-          $testType->test_type = ucfirst(trans(Purifier::clean($request->test_type)));
-
-          $testType->save();
-          
-        // Flash message
-        Session::flash('success','The Test Type has  successfully Added.The Test Type is: '. ucfirst( $testType->test_type));
-        
-         //  view the Test Type  in cms with variable
-        return redirect()->route('test_type.index');
+         $viewData = [];
+         $this->formValidator->validateRequest($request);
+        if ($this->formValidator->isValid()) 
+                {
+                    $this->testTypeServices->save($this->formValidator->getData());
+                    Session::flash('success','The Test Type has  successfully Added.The Test Type is: ');
+                 }
+          $viewData['errors'] = $this->formValidator->getErrors();
+       
+ 
+     return redirect()->route('test_type.index')->withViewData($viewData);
     }
 
     /**

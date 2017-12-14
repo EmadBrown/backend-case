@@ -66,19 +66,19 @@ class GradeAdminController extends Controller
     {
         $grade = new Grade();
    
-        // validate the data
-        $this->validate($request, array(
-                'name' => 'required|max:70',
-                'mark' =>  'required',
-                'test_type_id' =>  'required',
-                'user_id' => 'required',
-                'sufficient' => 'required'
-        ),
-                
-                $messsages = array(
-                'test_type_id.required'=>'First Add Test Type Then You can create grade form!',
-        ));
-        
+//        // validate the data
+//        $this->validate($request, array(
+//                'name' => 'required|max:70',
+//                'mark' =>  'required',
+//                'test_type_id' =>  'required',
+//                'user_id' => 'required',
+//                'sufficient' => 'required'
+//        ),
+//                
+//                $messsages = array(
+//                'test_type_id.required'=>'First Add Test Type Then You can create grade form!',
+//        ));
+//        
       
         
         
