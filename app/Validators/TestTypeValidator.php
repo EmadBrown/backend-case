@@ -2,8 +2,6 @@
 
 namespace App\Http\Validators;
 
-use App\Http\Validators\AbstractFormValidator;
-
 class TestTypeValidator extends AbstractFormValidator {
     
     public function rules() 

@@ -46,6 +46,8 @@ Route::prefix('admin')->group(function(){
 Route::middleware('auth:admin')->group( function () {
    Route::resource('/news' , 'Cms\NewsAdminController' );
    Route::resource('/grade' , 'Cms\GradeAdminController' );
-   Route::resource('/test_type' , 'Cms\TestTypeAdminController' , ['except' => ['create' , 'show' , 'edit'] ]);
+   Route::get('/test_type/' , 'Cms\TestTypeAdminController@index')->name('test_type.index');
+   Route::match(['post' , 'put'] , '/test_type/store' , 'Cms\TestTypeAdminController@store')->name('test_type.store');
+   Route::get('/test_type/{id}' , 'Cms\TestTypeAdminController@destroy')->name('test_type.destroy');
 });
 

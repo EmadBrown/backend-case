@@ -36,9 +36,10 @@
                                                                                   <!--Form of edit name of Test Type.  hidden and show by  id div.row using $testType->id to target the form in jquery -->
                                                                                      <div class="row hidden" id="edit{{ $testType->id }}"> 
                                                                                             <div class="col-xs-12">
-                                                                                                    {!! Form::model($testType , ['route' => [ 'test_type.update' , $testType->id ] , 'data-parsley-validate' => '' , 'method' => 'PUT']) !!}
+                                                                                                    {!! Form::model($testType , ['route' => [ 'test_type.store'] , 'data-parsley-validate' => '' , 'method' => 'PUT']) !!}
                                                                                                         <div class="row">
                                                                                                                    <div class="col-xs-8">
+                                                                                                                     {{ Form::hidden('id', null, [ 'class' => 'form-control' ] )}}
                                                                                                                      {{ Form::text('test_type' ,   null , array('class' => 'form-control' , 'required' =>'' , 'data-parsley-maxlength' => '255')) }}
                                                                                                                    </div>
 
@@ -61,7 +62,7 @@
                                                                                                      <a href="#" edit-button="{{$testType->id}}" class="btn btn-primary edit">Edit</a>
                                                                                             </div>
                                                                                             <div class="col-sm-3">
-                                                                                                    {!! Form::open(['route' => ['test_type.destroy' , $testType->id ], 'data-parsley-validate' => '' , 'method' => 'DELETE']) !!}
+                                                                                                    {!! Form::open(['route' => ['test_type.destroy' , $testType->id ] , 'data-parsley-validate' => '' , 'method' => 'get']) !!}
                                                                                                             {{ Form::submit('Delete' , array('class' => 'btn btn-danger')) }}
                                                                                                     {!! Form::close() !!}
                                                                                             </div>

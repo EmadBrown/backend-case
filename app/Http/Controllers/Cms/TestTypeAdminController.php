@@ -4,13 +4,10 @@ namespace App\Http\Controllers\Cms;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Mews\Purifier\Facades\Purifier;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Http\RedirectResponse;
 use App\Services\CmsServices;
 use App\Services\TestTypeServices;
 use App\Http\Validators\TestTypeValidator;
-use App\Models\TestType;
 
 class TestTypeAdminController extends Controller
 {
@@ -60,11 +57,10 @@ class TestTypeAdminController extends Controller
      */
     public function index()
     {
-        $testTypes = TestType::orderBy('created_at'  ,  'desc')->paginate(10);
+        $testTypes = $this->testTypeServices->getData();
 
         return view('cms.grades.test_type')->withTestTypes($testTypes);
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -74,49 +70,35 @@ class TestTypeAdminController extends Controller
      */
     public function store(Request $request)
     {     
-        
          $viewData = [];
          $this->formValidator->validateRequest($request);
         if ($this->formValidator->isValid()) 
+        {
+                if($request->isMethod ('post'))
                 {
-                    $this->testTypeServices->save($this->formValidator->getData());
-                    Session::flash('success','The Test Type has  successfully Added.The Test Type is: ');
-                 }
-          $viewData['errors'] = $this->formValidator->getErrors();
-       
- 
-     return redirect()->route('test_type.index')->withViewData($viewData);
+                           $this->testTypeServices->save($this->formValidator->getData());
+                           Session::flash('success','The Test Type has  successfully Added.');
+                           return redirect()->route('test_type.index');
+                }
+               elseif($request->isMethod('put'))
+                {
+                           $this->testTypeServices->save($this->formValidator->getData());
+                           Session::flash('success','The Test Type has  successfully Updated.');
+                           return redirect()->route('test_type.index');
+               }
+               else   
+                {
+                   Session::flash('warning','You call a wrong Method.');
+               }
+         }
+         else
+        {
+                $viewData['errors'] = $this->formValidator->getErrors();
+                return redirect()->route('test_type.index')->withViewData($viewData);
+         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-             
-   
-        // validate the data
-        $this->validate($request, array(
-                'test_type' => 'required'
-        ));
-        
-         $testType =  TestType::find($id);
-           
-          //  store the data in the Test_types table
-          $testType->test_type = ucfirst(trans(Purifier::clean($request->test_type)));
-
-          $testType->update();
-          
-        // Flash message
-        Session::flash('success','The Test Type has  successfully Updated.The Test Type is: '. ucfirst( $testType->test_type));
-        
-        return redirect()->route('test_type.index');
-    }
-
+  
     /**
      * Remove the specified resource from storage.
      *
@@ -125,13 +107,12 @@ class TestTypeAdminController extends Controller
      */
     public function destroy($id)
     {
-        $testType =  TestType::find($id);
-        
-        $testType->delete();
+       
+        $this->testTypeServices->delete($id);
         
          // Flsh message 
-        Session::flash('info','The Test Type  has successfully Deleted.The Test Type is: '. ucfirst( $testType->test_type));
+        Session::flash('info','The Test Type  has successfully Deleted.');
         
-           return redirect()->route('test_type.index');
+        return redirect()->route('test_type.index');
     }
 }
