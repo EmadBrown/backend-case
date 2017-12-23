@@ -40,9 +40,11 @@
                                                                 {{ Form::label('image_url' , 'Upload Feature Image:') }}
                                                                 {{ Form::file('image_url') }}
                                                          </div>
+                                                    @if(!Empty($article->image_url))
                                                         <div class="col-md-6">
                                                             <img src="{{ asset('images/news') }}/{{$article->image_url }}" width="80" height="60" >
                                                         </div>
+                                                    @endif
                                                 </div>
                                         </div>
                                         <div class="form-group">
