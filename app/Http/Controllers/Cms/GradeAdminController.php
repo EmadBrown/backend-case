@@ -128,7 +128,7 @@ class GradeAdminController extends Controller
          
         if ($this->formValidator->isValid()) 
         {
-                 $this->gradeServices->save($this->formValidator->getData());
+                 $this->gradeServices->update($this->formValidator->getData() , $id);
                 Session::flash('success','The Grade has  successfully Updated.');
                 return redirect()->route('grade.index');
         }

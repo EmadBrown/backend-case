@@ -4,22 +4,32 @@ namespace App\Http\Controllers\Cms;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Mews\Purifier\Facades\Purifier;
 use Illuminate\Support\Facades\Session;
-use Image;
-use App\Models\News;
 use App\Services\CmsServices;
+use App\Http\Validators\NewsValidator;
 use Illuminate\View\View;
 
 class NewsAdminController extends Controller
 {
  
-    protected $cmsServices;
-
-    public function __construct(CmsServices $cmsServices)
+    /**
+     * @var CmsServices 
+     */
+    private $cmsServices;
+    
+    /**
+     * @var NewsValidator 
+     */
+    private $formValidator;
+    
+    public function __construct(
+        CmsServices $cmsServices,
+        NewsValidator $formValidator
+    )
     {
         // Get function's data of CmsServices r and pass it to all the view cms
         $this->cmsServices = $cmsServices;
+        $this->formValidator = $formValidator;
         
         $countArticle = $this->cmsServices->countArticle();
         
@@ -32,9 +42,7 @@ class NewsAdminController extends Controller
      */
     public function index()
     {
-        $news = News::orderBy('created_at'  ,  'desc')->paginate(10);
-
-        return view('cms.news.index')->withNews($news);
+        return view('cms.news.index')->withNews($this->cmsServices->getData());
     }
 
     /**
@@ -55,34 +63,18 @@ class NewsAdminController extends Controller
      */
     public function store(Request $request)
     {
-        $article = new News();
-   
-        // validate the data
-        $this->validate($request, array(
-                'title' => 'required|max:70',
-                'author' =>  'required|min:3|max:60',
-                'description' => 'required|min:10'
-        ));
+       $this->formValidator->validateRequest($request);
+         
+        if ($this->formValidator->isValid()) 
+        {
+                 
+                 $this->cmsServices->save($this->formValidator->getData() , $this->cmsServices->uploadImage($request));
+                Session::flash('success','The Article has successfully Added.');
+                return redirect()->route('news.index');
+        }
         
-          //  store the data in the News table
-          $article->title = ucfirst(trans(Purifier::clean($request->title)));
-          $article->author = ucfirst (trans(Purifier::clean($request->author)));
-          $article->description = ucfirst(trans(Purifier::clean($request->description)));
-       
-          // upload image
-          if($request->hasFile('image_url')){
-              $image = $request->file('image_url');
-              $fileName = time() . '.' . $image->getClientOriginalExtension();
-              $location = public_path('images/news/' . $fileName );
-              Image::make($image)->resize(800 , 400)->save($location);
-              
-              $article->image_url = $fileName;
-          }
-          
-          $article->save();
-          
         // Flash message
-        Session::flash('success','The Article has  successfully Added.The Article`s title: '. ucfirst( $article->title));
+        Session::flash('success','The Article has  successfully Added.');
         
          //  view the news  in cms with variable
         return redirect()->route('news.index');
@@ -95,10 +87,8 @@ class NewsAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        $article = News::find($id);
-        
-        return view('cms.news.show')->withArticle($article);
+    {  
+        return view('cms.news.show')->withArticle($this->cmsServices->find($id));
     }
 
     /**
@@ -109,9 +99,7 @@ class NewsAdminController extends Controller
      */
     public function edit($id)
     {
-         $article = News::find($id);
-         
-         return view('cms.news.edit')->withArticle($article);
+         return view('cms.news.edit')->withArticle($this->cmsServices->find($id));
     }
 
     /**
@@ -123,34 +111,17 @@ class NewsAdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-          // validate the data
-        $this->validate($request, array(
-                'title' => 'required|max:70',
-                'author' =>  'required|min:3|max:60',
-                'description' => 'required|min:10'
-        ));
-        
-         $article = News::find($id);
+        $this->formValidator->validateRequest($request);
          
-          //  store the data in the News table
-          $article->title = ucfirst(trans(Purifier::clean($request->title)));
-          $article->author = ucfirst (trans(Purifier::clean($request->author)));
-          $article->description = ucfirst(trans(Purifier::clean($request->description)));
-       
-           // upload image
-          if($request->hasFile('image_url')){
-              $image = $request->file('image_url');
-              $fileName = time() . '.' . $image->getClientOriginalExtension();
-              $location = public_path('images/news/' . $fileName );
-              Image::make($image)->resize(800 , 400)->save($location);
-              
-              $article->image_url = $fileName;
-          }
-          
-          $article->update();
-          
+        if ($this->formValidator->isValid()) 
+        {
+                 $this->cmsServices->update($this->formValidator->getData() , $id , $this->cmsServices->uploadImage($request));
+                Session::flash('success','The Article has successfully Update.');
+                return redirect()->route('news.index');
+        }
+        
         // Flash message
-        Session::flash('success','The Article has  successfully Updated.The Article`s title: '. ucfirst( $article->title));
+        Session::flash('success','The Article has  successfully Updated.');
         
          //  view the news  in cms with variable
         return redirect()->route('news.index');

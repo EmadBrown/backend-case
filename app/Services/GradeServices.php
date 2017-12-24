@@ -79,6 +79,17 @@ class GradeServices
             return $grade->save();
     }
     
+    
+    public function update($data , $id)
+    {
+            $grade = Grade::findOrFail($id);
+            $grade->name = ucfirst(trans(Purifier::clean($data['name'])));
+            $grade->mark = ucfirst (trans(Purifier::clean($data['mark'])));
+            $grade->test_type_id = $data['test_type_id'];
+            $grade->user_id = $data['user_id'];
+            $grade->sufficient = ucfirst(trans(Purifier::clean($data['sufficient'])));
+            return $grade->update();
+    }
         /**
      * 
      * @param type $id
