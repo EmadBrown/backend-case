@@ -7,17 +7,35 @@ use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 use App\Services\CmsServices;
 use App\Services\GradeServices;
-use Mews\Purifier\Facades\Purifier;
 use Illuminate\Support\Facades\Session;
-use App\Models\Grade;
+use App\Http\Validators\GradeValidator;
 
 class GradeAdminController extends Controller
 {
+    
+    private $formValidator;
+    /**
+     *
+     * @var CmsServices 
+     */
     protected $cmsServices;
     
+    /**
+     *
+     * @var GradeServices 
+     */
     protected $gradeServices;
-
-    public function __construct(CmsServices $cmsServices , GradeServices $gradeServices )
+    
+    /**
+     * 
+     * @param CmsServices $cmsServices
+     * @param GradeServices $gradeServices
+     */
+    public function __construct(
+        CmsServices $cmsServices ,
+        GradeServices $gradeServices,
+        GradeValidator $formValidator
+    )
     {
         // Get function's data of CmsServices and pass it to all the view cms
         $this->cmsServices = $cmsServices;
@@ -28,6 +46,8 @@ class GradeAdminController extends Controller
         
        // Getting function's  of TestTypeServices 
             $this->gradeServices = $gradeServices;
+            
+            $this->formValidator = $formValidator;
     }
     
     /**
@@ -37,9 +57,7 @@ class GradeAdminController extends Controller
      */
     public function index()
     {
-        $grades = Grade::orderBy('created_at'  ,  'desc')->paginate(10);
-        
-        return view('cms.grades.index')->withGrades($grades);
+        return view('cms.grades.index')->withGrades($this->gradeServices->getData());
     }
 
     /**
@@ -64,20 +82,17 @@ class GradeAdminController extends Controller
      */
     public function store(Request $request)
     {
-        $grade = new Grade();
-   
-          //  store the data in the News table
-            $grade->name = ucfirst(trans(Purifier::clean($request->name)));
-            $grade->mark = ucfirst (trans(Purifier::clean($request->mark)));
-            $grade->test_type_id = $request->test_type_id;
-            $grade->user_id = $request->user_id;
-            $grade->sufficient = ucfirst(trans(Purifier::clean($request->sufficient)));
-
-          
-            $grade->save();
-          
+         $this->formValidator->validateRequest($request);
+         
+        if ($this->formValidator->isValid()) 
+        {
+                 $this->gradeServices->save($this->formValidator->getData());
+                Session::flash('success','The Grade has  successfully Added.');
+                return redirect()->route('grade.index');
+        }
+        
         // Flash message
-        Session::flash('success','The Grade has  successfully Added.The Student`s name: '. ucfirst( $grade->name));
+        Session::flash('danger','The Grade has  Not  Added.');
         
          //  view the news  in cms with variable
         return redirect()->route('grade.index');
@@ -90,14 +105,12 @@ class GradeAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        $grade = Grade::find($id);
-        
+    {      
         $testTypes = $this->gradeServices->getTestTypes();
 
          $users = $this->gradeServices->getUsers();
              
-        return view('cms.grades.edit')->withGrade($grade)->withTestTypes($testTypes)->withUsers($users);
+        return view('cms.grades.edit')->withGrade($this->gradeServices->edit($id))->withTestTypes($testTypes)->withUsers($users);
     }
 
     /**
@@ -111,34 +124,17 @@ class GradeAdminController extends Controller
     {
   
    
-        // validate the data
-        $this->validate($request, array(
-                'name' => 'required|max:70',
-                'mark' =>  'required',
-                'test_type_id' =>  'required',
-                'user_id' => 'required',
-                'sufficient' => 'required'
-        ),
-                
-                $messsages = array(
-                'test_type_id.required'=>'First Add Test Type Then You can create grade form!',
-        ));
+       $this->formValidator->validateRequest($request);
+         
+        if ($this->formValidator->isValid()) 
+        {
+                 $this->gradeServices->save($this->formValidator->getData());
+                Session::flash('success','The Grade has  successfully Updated.');
+                return redirect()->route('grade.index');
+        }
         
-        
-        $grade = Grade::find($id);
-        
-          //  store the data in the News table
-          $grade->name = ucfirst(trans(Purifier::clean($request->name)));
-          $grade->mark = ucfirst (trans(Purifier::clean($request->mark)));
-          $grade->test_type_id = $request->test_type_id;
-          $grade->user_id = $request->user_id;
-          $grade->sufficient = ucfirst(trans(Purifier::clean($request->sufficient)));
-
-          
-          $grade->update();
-          
         // Flash message
-        Session::flash('success','The Grade has  successfully Updated.The Student`s name: '. ucfirst( $grade->name));
+        Session::flash('danger','The Grade has  Not  Updated.');
         
          //  view the news  in cms with variable
         return redirect()->route('grade.index');
@@ -152,12 +148,9 @@ class GradeAdminController extends Controller
      */
     public function destroy($id)
     {
-        $grade = Grade::find($id);
-        
-        $grade->delete();
-        
+         $this->gradeServices->delete($id);
         // Flsh message 
-        Session::flash('info','The Grade has successfully Deleted.The Student`s name: '. ucfirst( $grade->name));
+        Session::flash('info','The Grade has successfully Deleted.');
         
         return redirect()->route('grade.index');
     }

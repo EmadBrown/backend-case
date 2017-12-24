@@ -42,8 +42,10 @@
                                                          </div>
                                                     @if(!Empty($article->image_url))
                                                         <div class="col-md-6">
-                                                            <img src="{{ asset('images/news') }}/{{$article->image_url }}" width="80" height="60" >
+                                                            <img src="{{ asset('images/news') }}/{{$article->image_url }}"  width="80" height="60" ><br>
+                                                            <button id="deleteImage" class="btn btn-danger">Remove </button>
                                                         </div>
+
                                                     @endif
                                                 </div>
                                         </div>

@@ -2,8 +2,6 @@
 
 namespace App\Http\Validators;
 
-use App\Http\Validators\AbstractFormValidator;
-
 class GradeValidator extends AbstractFormValidator
 {
  
@@ -16,6 +14,7 @@ class GradeValidator extends AbstractFormValidator
                    'user_id' => 'required',
                    'sufficient' => 'required'
          ];
+         return $this->rules;
     }
     
 }
